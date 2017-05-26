@@ -33,38 +33,59 @@ namespace Weblog.DynamicDomainObject.Test
             Assert.AreEqual(1, testFixture.NonDynamicPropertyStruct2);
         }
 
-
         [Test]
-        public void TestGetDynamicProperities()
+        public void null_returned_when_dynamic_property_has_not_been_set()
         {
             dynamic testFixture = new TestFixture();
-
             Assert.IsNull(testFixture.NonExistsDynamicProperty);
         }
 
-
         [Test]
-        public void TestSetDynamicProperties()
+        public void can_set_dynamic_class_property()
         {
             dynamic testFixture = new TestFixture();
 
             testFixture.DynamicPropertyOne = "test";
-            testFixture.DynamicPropertyTwo = 1;
-
             Assert.AreEqual("test", testFixture.DynamicPropertyOne);
+        }
+
+        [Test]
+        public void can_set_dynamic_struct_property()
+        {
+            dynamic testFixture = new TestFixture();
+            testFixture.DynamicPropertyTwo = 1;
             Assert.AreEqual(1, testFixture.DynamicPropertyTwo);
         }
 
         [Test]
-        public void TestConvertType()
+        public void can_convert_from_dynamic_to_implemented_interface()
         {
             dynamic testFixture = new TypeTestFixture();
-
             var fixtureInterface = (TestFixtureInterface)testFixture;
-            var fixtureInterface2 = (TestFixtureInterface2)testFixture;
-
             Assert.NotNull(fixtureInterface);
+        }
+
+        [Test]
+        public void converting_from_dynamic_to_unimplemented_interface_returns_null()
+        {
+            dynamic testFixture = new TypeTestFixture();
+            var fixtureInterface2 = (TestFixtureInterface2)testFixture;
             Assert.IsNull(fixtureInterface2);
+        }
+
+        [Test]
+        public void can_dispose()
+        {
+            var t = new TypeTestFixture();
+            t.Dispose();
+        }
+
+        [Test]
+        public void can_dispose_twice()
+        {
+            var t = new TypeTestFixture();
+            t.Dispose();
+            t.Dispose();
         }
 
         private interface TestFixtureInterface
