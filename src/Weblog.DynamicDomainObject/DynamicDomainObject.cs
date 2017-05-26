@@ -10,6 +10,7 @@ namespace Weblog.DynamicDomainObject
     {
         private Dictionary<string, object> _internalPropertyStorage;
 
+        // suggestion: SetDynamicProperty?
         public object SetProperty(string key, object value)
         {
             // only create dictionary if needed
@@ -30,6 +31,12 @@ namespace Weblog.DynamicDomainObject
         {
             _internalPropertyStorage?.Clear();   
             _internalPropertyStorage = null;
+        }
+
+        public object this[string key]
+        {
+            get { return GetProperty(key); }
+            set { SetProperty(key, value); }
         }
 
         public DynamicMetaObject GetMetaObject(Expression parameter) => new DynamicDomainMetaObject(parameter, this, GetType());
